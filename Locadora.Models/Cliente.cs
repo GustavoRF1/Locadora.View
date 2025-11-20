@@ -12,6 +12,10 @@
 
         public readonly static string SELECTCLIENTEPOREMAIL = "SELECT * FROM tblClientes WHERE EMAIL = @EMAIL;";
 
+        public readonly static string SELECTCLIENTEPORID = "SELECT * FROM tblClientes WHERE CLIENTEID = @CLIENTEID;";
+
+        public readonly static string DELETECLIENTEPORID = "DELETE FROM tblClientes WHERE CLIENTEID = @CLIENTEID;";
+
         public int ClienteID { get; private set; }
         public string Nome { get; private set; }
         public string Email { get; private set; }

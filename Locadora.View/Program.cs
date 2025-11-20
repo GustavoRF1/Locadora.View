@@ -35,3 +35,6 @@ var clienteController = new ClienteController();
 
 clienteController.AtualizarTelefoneCliente("99999999", "d@d.com");
 Console.WriteLine(clienteController.BuscarClientePorEmail("d@d.com"));
+
+Console.WriteLine(clienteController.BuscarClientePorID(9));
+clienteController.ExcluirClientePorID(9);

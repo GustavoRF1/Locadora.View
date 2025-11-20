@@ -83,7 +83,7 @@ namespace Locadora.Controller
 
        public Cliente BuscarClientePorEmail(string email)
         {
-            SqlConnection connection = new SqlConnection(ConnectionDB.GetConnectionString());
+            var connection = new SqlConnection(ConnectionDB.GetConnectionString());
 
             connection.Open();
 
@@ -121,7 +121,47 @@ namespace Locadora.Controller
             }
         }
 
-       public void AtualizarTelefoneCliente(string telefone, string email)
+       public Cliente BuscarClientePorID(int id)
+        {
+            var connection = new SqlConnection(ConnectionDB.GetConnectionString());
+
+            connection.Open();
+
+            try
+            {
+                SqlCommand command = new SqlCommand(Cliente.SELECTCLIENTEPORID, connection);
+
+                command.Parameters.AddWithValue("@CLIENTEID", id);
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    Cliente cliente = new Cliente(
+                        reader["NOME"].ToString()!,
+                        reader["EMAIL"].ToString()!,
+                        reader["TELEFONE"] != DBNull.Value ? reader["TELEFONE"].ToString() : null
+                    );
+                    cliente.setClienteID(Convert.ToInt32(reader["CLIENTEID"]));
+                    return cliente;
+                }
+                return null;
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("Erro ao buscar cliente por email." + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro inesperado ao buscar cliente por email." + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        public void AtualizarTelefoneCliente(string telefone, string email)
         {
             var clienteEncontrado = BuscarClientePorEmail(email);
 
@@ -135,25 +175,74 @@ namespace Locadora.Controller
             SqlConnection connection = new SqlConnection(ConnectionDB.GetConnectionString());
 
             connection.Open();
+            using (SqlTransaction transaction = connection.BeginTransaction())
+            {
+                try
+                {
+                    SqlCommand command = new SqlCommand(Cliente.UPDATEFONECLIENTE, connection, transaction);
+                    command.Parameters.AddWithValue("@TELEFONE", clienteEncontrado.Telefone);
+                    command.Parameters.AddWithValue("@CLIENTEID", clienteEncontrado.ClienteID);
 
-            try
-            {
-                SqlCommand command = new SqlCommand(Cliente.UPDATEFONECLIENTE, connection);
-                command.Parameters.AddWithValue("@TELEFONE", clienteEncontrado.Telefone);
-                command.Parameters.AddWithValue("@CLIENTEID", clienteEncontrado.ClienteID);
+                    transaction.Commit();
+                }
+                catch (SqlException ex)
+                {
+                    transaction.Rollback();
+                    throw new Exception("Erro ao atualizar telefone do cliente." + ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw new Exception("Erro inesperado ao atualizar telefone do cliente." + ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
+                }
             }
-            catch (SqlException ex)
+        }
+
+       public void ExcluirClientePorID (int clienteID)
+        {
+            var clienteEncontrado = BuscarClientePorID(clienteID);
+
+            if(clienteEncontrado is null)
             {
-                throw new Exception("Erro ao atualizar telefone do cliente." + ex.Message);
+                throw new Exception("Cliente não encontrado");
             }
-            catch (Exception ex)
+
+            var connection = new SqlConnection(ConnectionDB.GetConnectionString());
+
+            connection.Open();
+
+            using(var transaction = connection.BeginTransaction())
             {
-                throw new Exception("Erro inesperado ao atualizar telefone do cliente." + ex.Message);
+                try
+                {
+                    SqlCommand command = new SqlCommand(Cliente.DELETECLIENTEPORID, connection, transaction);
+
+                    command.Parameters.AddWithValue("@CLIENTEID", clienteEncontrado.ClienteID);
+
+                    command.ExecuteNonQuery();
+
+                    transaction.Commit();
+                }
+                catch (SqlException ex)
+                {
+                    transaction.Rollback();
+                    throw new Exception("Erro ao excluir cliente." + ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw new Exception("Erro inesperado ao excluir cliente." + ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
+                }
             }
-            finally
-            {
-                connection.Close();
-            }
+
         }
     }
 }
