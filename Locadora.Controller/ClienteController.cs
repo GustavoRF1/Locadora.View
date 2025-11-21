@@ -6,7 +6,7 @@ namespace Locadora.Controller
 {
     public class ClienteController
     {
-       public void AdicionarCliente(Cliente cliente)
+       public void AdicionarCliente(Cliente cliente, Documento documento)
         {
             var connection = new SqlConnection(ConnectionDB.GetConnectionString());
             
@@ -22,11 +22,24 @@ namespace Locadora.Controller
                     command.Parameters.AddWithValue("@EMAIL", cliente.Email);
                     command.Parameters.AddWithValue("@TELEFONE", cliente.Telefone ?? (object)DBNull.Value);
 
-                    cliente.setClienteID(Convert.ToInt32(command.ExecuteScalar()));
+                    int clienteId= Convert.ToInt32(command.ExecuteScalar());
+
+                    cliente.setClienteID(clienteId);
+
+                    var documentoController = new DocumentoController();
+
+                    documento.setClienteID(clienteId);
+
+                    documentoController.AdicionarDocumento(documento, connection, transaction);
 
                     transaction.Commit();
                 }
-                catch(Exception ex)
+                catch (SqlException sqlEx)
+                {
+                    transaction.Rollback();
+                    throw new Exception("Erro ao adicionar cliente. Detalhes: " + sqlEx.Message);
+                }
+                catch (Exception ex)
                 {
                     transaction.Rollback();
                     throw new Exception("Erro ao adicionar cliente." + ex.Message);
@@ -59,7 +72,17 @@ namespace Locadora.Controller
                         reader["EMAIL"].ToString()!,
                         reader["TELEFONE"] != DBNull.Value ? reader["TELEFONE"].ToString() : null
                     );
-                    cliente.setClienteID(Convert.ToInt32(reader["CLIENTEID"]));
+                    //cliente.setClienteID(Convert.ToInt32(reader["CLIENTEID"]));
+
+                    var documento = new Documento(
+                        reader["TipoDocumento"].ToString(),
+                        reader["Numero"].ToString(),
+                        DateOnly.FromDateTime(reader.GetDateTime(5)),
+                        DateOnly.FromDateTime(reader.GetDateTime(6))
+                        );
+
+                    cliente.setDocumento(documento);
+
                     clientes.Add(cliente);
                 }
 
@@ -103,6 +126,12 @@ namespace Locadora.Controller
                         reader["TELEFONE"] != DBNull.Value ? reader["TELEFONE"].ToString() : null
                     );
                     cliente.setClienteID(Convert.ToInt32(reader["CLIENTEID"]));
+
+                    var documento = new Documento(reader["TipoDocumento"].ToString(),
+                                                  reader["Numero"].ToString(),
+                                                  DateOnly.FromDateTime(reader.GetDateTime(6)),
+                                                  DateOnly.FromDateTime(reader.GetDateTime(7))
+                                                  );
                     return cliente;
                 }
                 return null;
@@ -198,6 +227,39 @@ namespace Locadora.Controller
                 finally
                 {
                     connection.Close();
+                }
+            }
+        }
+
+        public void AtualizarDocumentoCliente(Documento documento, string email)
+        {
+            var clienteEncontrado = BuscarClientePorEmail(email) ??
+                throw new Exception("Não existe cliente com esse email cadastrado!");
+
+            SqlConnection connection = new SqlConnection(ConnectionDB.GetConnectionString());
+
+            connection.Open();
+
+            using (SqlTransaction transaction = connection.BeginTransaction())
+            {
+                try
+                {
+                    documento.setClienteID(clienteEncontrado.ClienteID);
+                    DocumentoController documentoController = new DocumentoController();
+
+                    documentoController.AtualizarDocumento(documento, connection, transaction);
+
+                    transaction.Commit();
+                }
+                catch(SqlException ex)
+                {
+                    transaction.Rollback();
+                    throw new Exception("Erro ao atualizar documento do cliente: " + ex.Message);
+                }
+                catch(Exception ex)
+                {
+                    transaction.Rollback();
+                    throw new Exception("Erro inesperado ao atualizar documento do cliente: " + ex.Message);
                 }
             }
         }

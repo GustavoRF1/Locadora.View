@@ -3,12 +3,33 @@ using Locadora.Controller;
 
 
 
-Cliente cliente = new Cliente("Outro Nome B", "d@d.com");
+//Cliente cliente = new Cliente("Outro Nome com Documento", "j@j.com");
+//Documento documento = new Documento("CPF", "1324567891", DateOnly.Parse("2020-01-15"), DateOnly.Parse("2030-01-15"));
 //Documento documento = new Documento(cliente.ClienteID, "RG", "123456789", DateOnly.Parse("2015-05-20"), DateOnly.Parse("2025-05-20"));
 
-Console.WriteLine(cliente);
+//Console.WriteLine(cliente);
 
-var clienteController = new ClienteController();
+//Categoria categoria = new Categoria("Esportivo", "Carro para gente rica e maluca", 280.00);
+
+var categoriaController = new CategoriaController();
+
+//try
+//{
+//    categoriaController.AdicionarCategoria(categoria);
+//}
+//catch (Exception ex)
+//{
+//    Console.Write(ex.Message);
+//}
+
+//try
+//{
+//    clienteController.AdicionarCliente(cliente, documento);
+//}
+//catch (Exception ex)
+//{
+//    Console.Write(ex.Message);
+//}
 
 //try
 //{
@@ -21,9 +42,9 @@ var clienteController = new ClienteController();
 
 //try
 //{
-//    var listaDeClientes = clienteController.ListarTodosClientes();
+//    var listaDeCategorias = categoriaController.ListarTodasCategorias();
 
-//    foreach (var c in listaDeClientes)
+//    foreach (var c in listaDeCategorias)
 //    {
 //        Console.WriteLine(c);
 //    }
@@ -33,8 +54,25 @@ var clienteController = new ClienteController();
 //    Console.Write(ex.Message);
 //}
 
-clienteController.AtualizarTelefoneCliente("99999999", "d@d.com");
-Console.WriteLine(clienteController.BuscarClientePorEmail("d@d.com"));
+categoriaController.AtualizarDescricao("Relâmpago Marquinhos", "Esportivo");
+Console.WriteLine(categoriaController.BuscarCategoriaPorNome("Esportivo"));
 
-Console.WriteLine(clienteController.BuscarClientePorID(9));
-clienteController.ExcluirClientePorID(9);
+//try
+//{
+//    Console.WriteLine(categoriaController.BuscarCategoriaPorNome("Esportivo"));
+//    categoriaController.ExcluirCategoriaPorNome("Esportivo");
+//}
+//catch (Exception ex)
+//{
+//    Console.WriteLine(ex.Message);
+//}
+
+//try
+//{
+//    clienteController.AtualizarDocumentoCliente(documento, "j@j.com");
+
+//}
+//catch (Exception ex)
+//{
+//    Console.WriteLine(ex.Message);
+//}
