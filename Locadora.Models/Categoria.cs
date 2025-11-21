@@ -13,6 +13,8 @@ namespace Locadora.Models
 
         public readonly static string SELECTALLCATEGORIAS = "SELECT * FROM tblCategorias;";
 
+        public readonly static string SELECTCATEGORIAPORID = "SELECT Nome FROM tblCategorias WHERE CategoriaID = @CategoriaID;";
+
         public readonly static string SELECTCATEGORIAPORNOME = "SELECT * FROM tblCategorias WHERE Nome = @Nome;";
 
         public readonly static string UPDATEDIARIACATEGORIA = @"UPDATE tblCategorias 

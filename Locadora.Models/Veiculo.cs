@@ -8,8 +8,29 @@ namespace Locadora.Models
 {
     public class Veiculo
     {
+        public readonly static string INSERTVEICULO = @"INSERT INTO tblVeiculos (CategoriaID, Placa, Marca, Modelo, Ano, StatusVeiculo)
+                                                VALUES (@CategoriaID, @Placa, @Marca, @Modelo, 
+                                                        @Ano, @StatusVeiculo)";
+
+        public readonly static string SELECTALLVEICULOS = @"SELECT CategoriaID, 
+                                                    Placa, Marca, Modelo, Ano, StatusVeiculo
+                                                    FROM tblVeiculos";
+
+        public readonly static string SELECTVEICULOBYPLACA = @"SELECT VeiculoID, CategoriaID, 
+                                                    Placa, Marca, Modelo, Ano, StatusVeiculo
+                                                    FROM tblVeiculos
+                                                    WHERE Placa = @Placa";
+
+        public readonly static string UPDATESTATUSVEICULO = @"UPDATE tblVeiculos 
+                                                    SET StatusVeiculo = @StatusVeiculo
+                                                    WHERE Placa = @Placa";
+
+        public readonly static string DELETEVEICULO = @"DELETE FROM tblVeiculos
+                                                WHERE VeiculoID = @IdVeiculo";
+
         public int VeiculoID { get; private set; }
         public int CategoriaID { get; private set; }
+        public string CategoriaNome { get; private set; }
         public string Marca { get; private set; }
         public string Modelo { get; private set; }
         public int Ano { get; private set; }
@@ -35,12 +56,18 @@ namespace Locadora.Models
             StatusVeiuclo = statusVeiuclo;
         }
 
+        public void setCategoriaNome(string categoriaNome)
+        {
+            CategoriaNome = categoriaNome;
+        }
+
         public override string? ToString()
         {
-            return $"Placa: {Placa}" +
+            return $"Placa: {Placa}\n" +
                    $"Marca: {Marca}\n" +
                    $"Modelo: {Modelo}\n" +
                    $"Ano: {Ano}\n" +
+                   $"Categoria: {CategoriaNome}\n" +
                    $"Status do Veículo: {StatusVeiuclo}\n";
         }
     }
