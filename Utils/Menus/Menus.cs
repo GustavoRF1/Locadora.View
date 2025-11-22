@@ -22,7 +22,8 @@ namespace Utils.Menus
                 Console.WriteLine("1. Gerenciar Locações");
                 Console.WriteLine("2. Gerenciar Clientes");
                 Console.WriteLine("3. Gerenciar Veículos");
-                Console.WriteLine("4. Gerenciar Funcionários");
+                Console.WriteLine("4. Gerenciar Categorias");
+                Console.WriteLine("5. Gerenciar Funcionários");
                 Console.WriteLine("0. Sair");
                 Console.WriteLine("===========================\n");
                 Console.Write("Selecione uma opção: ");
@@ -54,6 +55,10 @@ namespace Utils.Menus
                     break;
 
                 case 4:
+                    ExibirMenuCategorias();
+                    break;
+                
+                case 5:
                     ExibirMenuFuncionarios();
                     break;
 
@@ -121,84 +126,6 @@ namespace Utils.Menus
                     Console.WriteLine("===== Alterar Status Locação =====");
 
                     Console.WriteLine("Status da locação alterado com sucesso");
-                    break;
-
-                case 0:
-                    ExibirMenuPrincipal();
-                    break;
-
-                default:
-                    Console.WriteLine("Opção inválida. Tente novamente.");
-                    break;
-            }
-        }
-
-        
-
-        public static void ExibirMenuVeiculos()
-        {
-            int op;
-            bool convertido;
-
-            do
-            {
-                Console.Clear();
-                Console.WriteLine("===== Menu de Veículos =====");
-                Console.WriteLine("1. Adicionar Veículo");
-                Console.WriteLine("2. Listar Veículos");
-                Console.WriteLine("3. Buscar Veículo Por Placa");
-                Console.WriteLine("4. Atualizar Status do Veículo");
-                Console.WriteLine("5. Excluir Veículo");
-                Console.WriteLine("0. Voltar ao Menu Principal");
-                Console.WriteLine("=============================\n");
-                Console.Write("Selecione uma opção: ");
-                int.TryParse(Console.ReadLine(), out op);
-
-                if (op >= 0 && op <= 5)
-                {
-                    convertido = true;
-                }
-                else
-                {
-                    Console.WriteLine("Opção inválida. Tente novamente.");
-                    convertido = false;
-                }
-            } while (convertido == false);
-
-            switch (op)
-            {
-                case 1:
-                    Console.Clear();
-                    Console.WriteLine("===== Adicionar Veiculo =====\n");
-
-                    Console.WriteLine("\nVeiculo adicionado com sucesso!");
-                    break;
-
-                case 2:
-                    Console.Clear();
-                    Console.WriteLine("===== Listar Veículos =====\n");
-                    break;
-
-                case 3:
-                    Console.Clear();
-                    Console.WriteLine("===== Buscar Veículo Por Placa =====\n");
-
-                    Console.WriteLine("\n===== Veículo Encontrado =====\n");
-                    break;
-
-                case 4:
-                    Console.Clear();
-                    Console.WriteLine("===== Alterar Status Veículo =====");
-
-                    Console.WriteLine("Status do veículo alterado com sucesso");
-                    break;
-
-                case 5:
-                    Console.Clear();
-                    Console.WriteLine("===== Remover Veículo =====");
-
-                    Console.WriteLine("Veículo removido com sucesso!");
-
                     break;
 
                 case 0:
@@ -286,5 +213,6 @@ namespace Utils.Menus
                     break;
             }
         }
+        
     }
 }
