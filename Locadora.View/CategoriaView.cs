@@ -8,7 +8,7 @@ namespace Locadora.View;
 
 public class CategoriaView
 {
-    public static void ExibirMenuLocacao()
+    public static void ExibirMenuCategorias()
         {
             int op;
             bool convertido;
@@ -121,15 +121,21 @@ public class CategoriaView
                     string nomeBuscar = InputHelper.LerString("Digite o nome da categoria: ", "Nome inválido.");
                     
                     decimal diariaAlterar = InputHelper.LerDecimal("Digite o valor da diária: ", "Valor da diária inválido");
-                    
+
                     try
                     {
-                        
-                        
-                        categoriaController.AtualizarDiaria(diariaAlterar, );
+                        categoriaController.AtualizarDiaria(diariaAlterar, nomeBuscar);
+
+                        Console.WriteLine("Diária da categoria alterado com sucesso");
                     }
-                    
-                    Console.WriteLine("Diária da categoria alterado com sucesso");
+                    catch (SqlException ex)
+                    {
+                        throw new Exception("Erro inesperado ao alterar categoria: " + ex.Message);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Erro ao alterar categoria: " + ex.Message);
+                    }
                     break;
 
                 case 0:

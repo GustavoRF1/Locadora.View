@@ -1,10 +1,6 @@
 ﻿using Locadora.Models;
 using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using Utils.Databases;
 
 namespace Locadora.Controller
@@ -69,7 +65,7 @@ namespace Locadora.Controller
                     Categoria categoria = new Categoria(
                         reader["Nome"].ToString()!,
                         reader["Descricao"] != DBNull.Value ? reader["Descricao"].ToString() : null,
-                        double.Parse(reader["Diaria"].ToString()!)
+                        decimal.Parse(reader["Diaria"].ToString()!)
                     );
                     categoria.setCategoriaId(Convert.ToInt32(reader["CategoriaId"]));
 
@@ -145,7 +141,7 @@ namespace Locadora.Controller
                     Categoria categoria = new Categoria(
                         reader["Nome"].ToString()!,
                         reader["Descricao"] != DBNull.Value ? reader["Descricao"].ToString() : null,
-                        double.Parse(reader["Diaria"].ToString()!)
+                        decimal.Parse(reader["Diaria"].ToString()!)
                     );
                     categoria.setCategoriaId(Convert.ToInt32(reader["CategoriaId"]));
                     return categoria;
@@ -166,7 +162,7 @@ namespace Locadora.Controller
             }
         }
 
-        public void AtualizarDiaria(double diaria, string nome)
+        public void AtualizarDiaria(decimal diaria, string nome)
         {
             var categoriaEncontrada = BuscarCategoriaPorNome(nome);
 
