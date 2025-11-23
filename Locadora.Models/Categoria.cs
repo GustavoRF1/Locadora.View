@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,56 +8,59 @@ namespace Locadora.Models
 {
     public class Categoria
     {
-        public readonly static string INSERTCATEGORIA = "INSERT INTO tblCategorias VALUES (@Nome, @Descricao, @Diaria); " +
-                                                      "SELECT SCOPE_IDENTITY();";
+        public static readonly string INSERTCATEGORIA = @"INSERT INTO tblCategorias(Nome, Descricao, Diaria) 
+                                                        VALUES(@Nome, @Descricao, @Diaria)";
 
-        public readonly static string SELECTALLCATEGORIAS = "SELECT * FROM tblCategorias;";
+        public static readonly string SELECTCATEGORIAS = @"SELECT Nome, Descricao, Diaria 
+                                                        FROM tblCategorias";
 
-        public readonly static string SELECTCATEGORIAPORID = "SELECT Nome FROM tblCategorias WHERE CategoriaID = @CategoriaID;";
+        public static readonly string UPDATECATEGORIA = @"UPDATE tblCategorias
+                                                        SET Descricao = @Descricao,
+                                                        Diaria = @Diaria
+                                                        WHERE Nome = @Nome";
 
-        public readonly static string SELECTCATEGORIAPORNOME = "SELECT * FROM tblCategorias WHERE Nome = @Nome;";
+        public static readonly string SELECTCATEGORIAPORNOME = @"SELECT Nome, Descricao, Diaria 
+                                                                FROM tblCategorias
+                                                                WHERE Nome = @Nome";
 
-        public readonly static string UPDATEDIARIACATEGORIA = @"UPDATE tblCategorias 
-                                                              SET Diaria = @Diaria 
-                                                              WHERE CategoriaID = @CategoriaId;";
+        public static readonly string SELECTCATEGORIAPORID = @"SELECT Nome
+                                                                FROM tblCategorias
+                                                                WHERE CategoriaID = @CategoriaID";
 
-        public readonly static string UPDATEDESCRICAOCATEGORIA = @"UPDATE tblCategorias 
-                                                              SET Descricao = @Descricao 
-                                                              WHERE CategoriaID = @CategoriaId;";
+        public static readonly string DELETECATEGORIA = @"DELETE FROM tblCategorias
+                                                          WHERE Nome = @Nome";
 
-        public readonly static string DELETECATEGORIAPORNOME = "DELETE FROM tblCategorias WHERE CategoriaID = @CategoriaId;";
+        public static readonly string INSERTCATEGORIAPROCEDURE = @"EXEC sp_AdicionarCategoria @Nome, @Descricao, @Diaria;";
 
-        public int CategoriaId { get; private set; }
+        public int CategoriaID { get; private set; }
         public string Nome { get; private set; }
         public string? Descricao { get; private set; }
         public decimal Diaria { get; private set; }
 
-        public Categoria(string nome, string? descricao, decimal diaria)
+        public Categoria(string nome, decimal diaria)
         {
             Nome = nome;
-            Descricao = descricao;
             Diaria = diaria;
         }
-
-        public void setDiaria(decimal diaria)
-        {
-            Diaria = diaria;
-        }
-        public void setCategoriaId(int categoriaId)
-        {
-            CategoriaId = categoriaId;
-        }
-
-        public void setDescricao(string? descricao)
+        public Categoria(string nome, decimal diaria, string? descricao) : this (nome, diaria)
         {
             Descricao = descricao;
+        }
+
+        public void SetCategoriaID(int categoriaID)
+        {
+            CategoriaID = categoriaID;
+        }
+
+        public void SetNomeCategoria(string nome) 
+        {
+            Nome = nome;
         }
 
         public override string? ToString()
         {
-            return $"Categoria: {Nome}\n" +
-                   $"Descrição: {Descricao}\n" +
-                   $"Diária: {Diaria}\n";
+            return $"Categoria: {Nome}\nDescrição: {Descricao}\nDiária: {Diaria:C}\n";
         }
+
     }
 }

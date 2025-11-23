@@ -1,7 +1,6 @@
 ﻿using Locadora.Controller;
 using Locadora.Models;
 using Microsoft.Data.SqlClient;
-using Utils.Menus;
 using Utils.Inputs;
 
 namespace Locadora.View;
@@ -9,11 +8,13 @@ namespace Locadora.View;
 public class CategoriaView
 {
     public static void ExibirMenuCategorias()
+    {
+        int op;
+        bool convertido;
+
+        CategoriaController categoriaController = new CategoriaController();
+        do
         {
-            int op;
-            bool convertido;
-            
-            CategoriaController categoriaController = new CategoriaController();
             do
             {
                 Console.Clear();
@@ -45,35 +46,36 @@ public class CategoriaView
                     Console.WriteLine("===== Adicionar Categoria =====\n");
 
                     string nome = InputHelper.LerString("Digite o nome da categoria: ", "Nome inválido.");
-                    string? descricao = InputHelper.LerString("Digite a descrição da categoria (opcional): ", "Descrição inválida", "");
                     decimal diaria = InputHelper.LerDecimal("Digite o valor da diária da categoria: ", "Valor da diária inválida.");
-                    
-                    Categoria categoria = new Categoria(nome, descricao, diaria);
+                    string? descricao = InputHelper.LerString("Digite a descrição da categoria (opcional): ", "Descrição inválida", "");
+
+                    Categoria categoria = new Categoria(nome, diaria, descricao);
                     try
                     {
                         categoriaController.AdicionarCategoria(categoria);
 
                         Console.WriteLine("\nCategoria adicionada com sucesso!");
+                        Console.ReadKey();
                     }
                     catch (SqlException ex)
                     {
-                        throw new Exception("Erro inesperado ao adicionar categoria: " + ex.Message);
+                        throw new Exception("Erro inesperado ao adicionar categoria. " + ex.Message);
                     }
                     catch (Exception ex)
                     {
-                        throw new Exception("Erro ao adicionar categoria: " + ex.Message);
+                        throw new Exception("Erro ao adicionar categoria. " + ex.Message);
                     }
                     break;
 
                 case 2:
                     Console.Clear();
                     Console.WriteLine("===== Listar Categorias =====\n");
-                    
+
                     try
                     {
                         var listaCategorias = new List<Categoria>();
 
-                        listaCategorias = categoriaController.ListarTodasCategorias();
+                        listaCategorias = categoriaController.ListarCategorias();
 
                         foreach (var item in listaCategorias)
                         {
@@ -81,21 +83,22 @@ public class CategoriaView
                             Console.WriteLine(item);
                             Console.WriteLine("=============================\n");
                         }
+                        Console.ReadKey();
                     }
                     catch (SqlException ex)
                     {
-                        throw new Exception("Erro inesperado ao listarcategoria: " + ex.Message);
+                        throw new Exception("Erro inesperado ao listar categoria. " + ex.Message);
                     }
                     catch (Exception ex)
                     {
-                        throw new Exception("Erro ao listar categorias: " + ex.Message);
+                        throw new Exception("Erro ao listar categorias. " + ex.Message);
                     }
                     break;
 
                 case 3:
                     Console.Clear();
                     Console.WriteLine("===== Buscar Categoria =====\n");
-                    
+
                     string nomeLido = InputHelper.LerString("Digite o nome da categoria: ", "Nome inválido.");
                     try
                     {
@@ -103,14 +106,15 @@ public class CategoriaView
 
                         Console.WriteLine("\n===== Categoria Encontrada =====\n");
                         Console.WriteLine(categoriaLida);
+                        Console.ReadKey();
                     }
                     catch (SqlException ex)
                     {
-                        throw new Exception("Erro inesperado ao buscar categoria: " + ex.Message);
+                        throw new Exception("Erro inesperado ao buscar categoria. " + ex.Message);
                     }
                     catch (Exception ex)
                     {
-                        throw new Exception("Erro ao listar categorias: " + ex.Message);
+                        throw new Exception("Erro ao listar categorias. " + ex.Message);
                     }
                     break;
 
@@ -119,32 +123,39 @@ public class CategoriaView
                     Console.WriteLine("===== Alterar Diária Categoria =====");
 
                     string nomeBuscar = InputHelper.LerString("Digite o nome da categoria: ", "Nome inválido.");
-                    
-                    decimal diariaAlterar = InputHelper.LerDecimal("Digite o valor da diária: ", "Valor da diária inválido");
+
+                    decimal diariaAlterar = InputHelper.LerDecimal("Digite o valor da diária atualizada: ", "Valor da diária inválido");
+
+                    string? descricaoAlterar =
+                        InputHelper.LerString("Digite a descrição atualizada: ", "Descrição inválida");
+
+                    Categoria categoriaAtualizar = new Categoria(nomeBuscar, diariaAlterar, descricaoAlterar);
 
                     try
                     {
-                        categoriaController.AtualizarDiaria(diariaAlterar, nomeBuscar);
+                        categoriaController.AtualizarCategoria(nomeBuscar, categoriaAtualizar);
 
                         Console.WriteLine("Diária da categoria alterado com sucesso");
+
+                        Console.ReadKey();
                     }
                     catch (SqlException ex)
                     {
-                        throw new Exception("Erro inesperado ao alterar categoria: " + ex.Message);
+                        throw new Exception("Erro inesperado ao alterar categoria. " + ex.Message);
                     }
                     catch (Exception ex)
                     {
-                        throw new Exception("Erro ao alterar categoria: " + ex.Message);
+                        throw new Exception("Erro ao alterar categoria. " + ex.Message);
                     }
                     break;
 
                 case 0:
-                    Menus.ExibirMenuPrincipal();
                     break;
 
                 default:
                     Console.WriteLine("Opção inválida. Tente novamente.");
                     break;
             }
-        }
+        } while (op != 0);
+    }
 }

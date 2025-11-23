@@ -1,27 +1,36 @@
-﻿namespace Locadora.Models
+﻿﻿namespace Locadora.Models
 {
     public class Cliente
     {
-        public readonly static string INSERTCLIENTE = "INSERT INTO tblClientes VALUES (@NOME, @EMAIL, @TELEFONE); " +
-                                                      "SELECT SCOPE_IDENTITY();";
+        public static readonly string INSERTCLIENTE = @"INSERT INTO tblClientes 
+                                                        VALUES(@Nome, @Email, @Telefone)" 
+                                                        + "SELECT SCOPE_IDENTITY()";
 
-        public readonly static string SELECTALLCLIENTES = "SELECT * FROM tblCategorias;";
+        public static readonly string SELECTALLCLIENTES = @"SELECT c.Nome, c.Email, c.Telefone,
+                                                            d.TipoDocumento, d.Numero, d.DataEmissao, d.DataValidade
+                                                            FROM tblClientes c
+                                                            JOIN tblDocumentos d
+                                                            ON c.ClienteID = d.ClienteID";
 
-        public readonly static string UPDATEFONECLIENTE = "UPDATE tblClientes SET TELEFONE = @TELEFONE " +
-                                                          "WHERE CLIENTEID = @CLIENTEID;";
+        public static readonly string UPDATEFONECLIENTE = @"UPDATE tblClientes
+                                                            SET Telefone = @Telefone
+                                                            WHERE ClienteID = @IDCliente";
 
-        public readonly static string SELECTCLIENTEPOREMAIL = @"SELECT c.ClienteID, c.Nome, c.Email, c.Telefone,
-		                                                  d.TipoDocumento, d.Numero, d.DataEmissao, d.DataValidade
-                                                          FROM tblClientes c
-                                                          JOIN tblDocumentos d 
-                                                          ON c.ClienteID = d.ClienteID
-                                                          WHERE c.Email = @Email";
+        public static readonly string SELECTCLIENTEPOREMAIL = @"SELECT c.ClienteID, c.Nome, c.Email, c.Telefone,
+                                                            d.TipoDocumento, d.Numero, d.DataEmissao, d.DataValidade
+                                                            FROM tblClientes c
+                                                            JOIN tblDocumentos d
+                                                            ON c.ClienteID = d.ClienteID
+                                                            WHERE Email = @Email";
 
-        public readonly static string SELECTCLIENTEPORID = "SELECT * FROM tblClientes WHERE CLIENTEID = @CLIENTEID;";
+        public static readonly string SELECTCLIENTEPORID = @"SELECT Nome 
+                                                            FROM tblClientes 
+                                                            WHERE ClienteID = @ClienteID";
 
-        public readonly static string DELETECLIENTEPORID = "DELETE FROM tblClientes WHERE CLIENTEID = @CLIENTEID;";
+        public static readonly string DELETECLIENTE = @"DELETE FROM tblClientes
+                                                       WHERE ClienteID = @IDCliente";
 
-        public int ClienteID { get; private set; }
+        public int ClienteId { get; private set; }
         public string Nome { get; private set; }
         public string Email { get; private set; }
         public string? Telefone { get; private set; } = String.Empty;
@@ -38,13 +47,12 @@
             Telefone = telefone;
         }
 
-        public void setClienteID(int clienteID)
+        public void setClienteId(int ClientId) 
         {
-            ClienteID = clienteID;
+            ClienteId = ClientId;
         }
-
-        public void setTelefone(string telefone)
-        {
+        public void setTelefone(string telefone) 
+        { 
             Telefone = telefone;
         }
 
@@ -55,9 +63,7 @@
 
         public override string? ToString()
         {
-            return $"Nome: {Nome}\n" +
-                $"Email: {Email}\n" +
-                $"Telefone: {(Telefone == string.Empty ? "Sem telefone" : Telefone)}\n" +  $"\n{Documento}\n";
+            return $"Nome: {Nome} \nEmail: {Email} \nTelefone: {(Telefone == string.Empty ? "Sem Telefone" : Telefone)}\n{Documento}";
         }
     }
 }

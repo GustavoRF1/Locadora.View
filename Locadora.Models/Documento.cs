@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,24 +8,27 @@ namespace Locadora.Models
 {
     public class Documento
     {
-        public static readonly string INSERTDOCUMENTO = "INSERT INTO tblDocumentos (ClienteID, TipoDocumento, Numero, DataEmissao, DataValidade) " +
-                                                            "VALUES (@CLIENTEID, @TIPODOCUMENTO, @NUMERO, @DATAEMISSAO, @DATAVALIDADE); " +
-                                                            "SELECT SCOPE_IDENTITY();";
+        public static readonly string INSERTDOCUMENTO = @"INSERT INTO tblDocumentos (ClienteId, TipoDocumento, Numero, DataEmissao, DataValidade) 
+                                                        VALUES(@ClienteId, @TipoDocumento, @Numero, @DataEmissao, @DataValidade) ";
 
         public static readonly string UPDATEDOCUMENTO = @"UPDATE tblDocumentos
-                                                          SET TipoDocumento = @TIPODOCUMENTO,
-                                                          Numero = @NUMERO,
-                                                          DataEmissao = @DATAEMISSAO,
-                                                          DataValidade = @DATAVALIDADE
-                                                          WHERE ClienteID = @CLIENTEID";
+                                                        SET TipoDocumento = @TipoDocumento,
+                                                        Numero = @Numero,
+                                                        DataEmissao = @DataEmissao,
+                                                        DataValidade = @DataValidade
+                                                        WHERE ClienteID = @IdCliente";
+        
+        public static readonly string SELECTDOCUMENTO = @"SELECT * FROM tblDocumentos
+                                                        WHERE DocumentoId = @DocumentoId";
 
-        public int DocumentoID { get; private set; }
-        public int ClienteID { get; private set; }
+        public int DocumentoId { get; private set; }
+        public int ClienteId { get; private set; }
         public string TipoDocumento { get; private set; }
+
         public string Numero { get; private set; }
         public DateOnly DataEmissao { get; private set; }
         public DateOnly DataValidade { get; private set; }
-        
+
         public Documento(string tipoDocumento, string numero, DateOnly dataEmissao, DateOnly dataValidade)
         {
             TipoDocumento = tipoDocumento;
@@ -34,17 +37,14 @@ namespace Locadora.Models
             DataValidade = dataValidade;
         }
 
-        public void setClienteID(int clienteID)
+        public void SetClienteId(int clienteId)
         {
-            ClienteID = clienteID;
+            ClienteId = clienteId;
         }
 
         public override string? ToString()
         {
-            return $"Tipo de Documento: {TipoDocumento}\n" +
-                $"Número: {Numero}\n" +
-                $"Data de Emissão: {DataEmissao}\n" +
-                $"Data de Validade: {DataValidade}";
+            return $"Tipo Documento: {TipoDocumento} \nNumero: {Numero} \nData Emissão: {DataEmissao} \nData Validade: {DataValidade}\n";
         }
     }
 }

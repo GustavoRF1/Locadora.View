@@ -1,63 +1,62 @@
-﻿using Locadora.Models;
+﻿using Locadora.Controller.Interfaces;
+using Locadora.Models;
 using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Transactions;
-using Utils.Databases;
 
 namespace Locadora.Controller
 {
-    public class DocumentoController
+    public class DocumentoController : IDocumentoController
     {
         public void AdicionarDocumento(Documento documento, SqlConnection connection, SqlTransaction transaction)
         {
-            try
+
+            try 
             {
                 SqlCommand command = new SqlCommand(Documento.INSERTDOCUMENTO, connection, transaction);
 
-                command.Parameters.AddWithValue("@CLIENTEID", documento.ClienteID);
-                command.Parameters.AddWithValue("@TIPODOCUMENTO", documento.TipoDocumento);
-                command.Parameters.AddWithValue("@NUMERO", documento.Numero);
-                command.Parameters.AddWithValue("@DATAEMISSAO", documento.DataEmissao);
-                command.Parameters.AddWithValue("@DATAVALIDADE", documento.DataValidade);
+                command.Parameters.AddWithValue("@ClienteId", documento.ClienteId);
+                command.Parameters.AddWithValue("@TipoDocumento", documento.TipoDocumento);
+                command.Parameters.AddWithValue("@Numero", documento.Numero);
+                command.Parameters.AddWithValue("@DataEmissao", documento.DataEmissao);
+                command.Parameters.AddWithValue("@DataValidade", documento.DataValidade);
 
                 command.ExecuteNonQuery();
             }
-            catch (SqlException sqlEx)
+            catch(SqlException ex)
             {
-                throw new Exception("Erro ao adicionar documento. Detalhes: " + sqlEx.Message);
+                transaction.Rollback();
+                throw new Exception("Erro ao adicionar documento: " + ex.Message);
             }
-            catch (Exception ex)
+            catch (Exception ex) 
             {
-                throw new Exception("Erro ao adicionar documento." + ex.Message);
+                transaction.Rollback();
+                throw new Exception("Erro inesperado ao adicionar documento: " + ex.Message);
             }
         }
-
-        public void AtualizarDocumento(Documento documento, SqlConnection connection, SqlTransaction transaction)
+        public void AtualizarDocumentos(Documento documento, SqlConnection connection, SqlTransaction transaction)
         {
             try
             {
                 SqlCommand command = new SqlCommand(Documento.UPDATEDOCUMENTO, connection, transaction);
 
-                command.Parameters.AddWithValue("@CLIENTEID", documento.ClienteID);
-                command.Parameters.AddWithValue("@TIPODOCUMENTO", documento.TipoDocumento);
-                command.Parameters.AddWithValue("@NUMERO", documento.Numero);
-                command.Parameters.AddWithValue("@DATAEMISSAO", documento.DataEmissao);
-                command.Parameters.AddWithValue("@DATAVALIDADE", documento.DataValidade);
+                command.Parameters.AddWithValue("@IdCliente", documento.ClienteId);
+                command.Parameters.AddWithValue("@TipoDocumento", documento.TipoDocumento);
+                command.Parameters.AddWithValue("@Numero", documento.Numero);
+                command.Parameters.AddWithValue("@DataEmissao", documento.DataEmissao);
+                command.Parameters.AddWithValue("@DataValidade", documento.DataValidade);
 
                 command.ExecuteNonQuery();
             }
-            catch (SqlException sqlEx)
+            catch (SqlException ex)
             {
-                throw new Exception("Erro ao adicionar documento. Detalhes: " + sqlEx.Message);
+                transaction.Rollback();
+                throw new Exception("Erro ao alterar documento: " + ex.Message);
             }
             catch (Exception ex)
             {
-                throw new Exception("Erro ao adicionar documento." + ex.Message);
+                transaction.Rollback();
+                throw new Exception("Erro inesperado ao alterar documento: " + ex.Message);
             }
         }
+
     }
 }

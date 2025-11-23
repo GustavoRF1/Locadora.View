@@ -1,6 +1,19 @@
-﻿namespace Locadora.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-public class LocacaoFuncionario
+namespace Locadora.Models
 {
-    
+    public class LocacaoFuncionario
+    {
+        public static readonly string INSERTRELACAO = @"INSERT INTO tblLocacaoFuncionarios(LocacaoID, FuncionarioID) VALUES(@LocacaoID, @FuncionarioID)";
+
+        public static readonly string SELECTFUNCIONARIOSPORLOCACAO = @"SELECT lf.FuncionarioID
+                                                                        FROM tblLocacaoFuncionarios lf
+                                                                        JOIN tblLocacoes l
+                                                                        ON lf.LocacaoID = l.LocacaoID
+                                                                        WHERE lf.LocacaoID = @LocacaoID";
+    }
 }

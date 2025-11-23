@@ -1,8 +1,7 @@
-﻿using Locadora.Controller;
-using Utils.Menus;
-using Locadora.Models;
-using Microsoft.Data.SqlClient;
+﻿using Locadora.Models;
+using Locadora.Controller;
 using Utils.Inputs;
+using Microsoft.Data.SqlClient;
 
 namespace Locadora.View;
 
@@ -16,146 +15,178 @@ public class VeiculoView
         VeiculoController veiculoController = new VeiculoController();
         do
         {
-            Console.Clear();
-            Console.WriteLine("===== Menu de Veículos =====");
-            Console.WriteLine("1. Adicionar Veículo");
-            Console.WriteLine("2. Listar Veículos");
-            Console.WriteLine("3. Buscar Veículo Por Placa");
-            Console.WriteLine("4. Atualizar Status do Veículo");
-            Console.WriteLine("5. Excluir Veículo");
-            Console.WriteLine("0. Voltar ao Menu Principal");
-            Console.WriteLine("=============================\n");
-            Console.Write("Selecione uma opção: ");
-            int.TryParse(Console.ReadLine(), out op);
 
-            if (op >= 0 && op <= 5)
+
+            do
             {
-                convertido = true;
-            }
-            else
+                Console.Clear();
+                Console.WriteLine("===== Menu de Veículos =====");
+                Console.WriteLine("1. Adicionar Veículo");
+                Console.WriteLine("2. Listar Veículos");
+                Console.WriteLine("3. Buscar Veículo Por Placa");
+                Console.WriteLine("4. Atualizar Status do Veículo");
+                Console.WriteLine("5. Excluir Veículo");
+                Console.WriteLine("0. Voltar ao Menu Principal");
+                Console.WriteLine("=============================\n");
+                Console.Write("Selecione uma opção: ");
+                int.TryParse(Console.ReadLine(), out op);
+
+                if (op >= 0 && op <= 5)
+                {
+                    convertido = true;
+                }
+                else
+                {
+                    Console.WriteLine("Opção inválida. Tente novamente.");
+                    convertido = false;
+                }
+            } while (convertido == false);
+
+            switch (op)
             {
-                Console.WriteLine("Opção inválida. Tente novamente.");
-                convertido = false;
-            }
-        } while (convertido == false);
+                case 1:
+                    Console.Clear();
+                    Console.WriteLine("===== Adicionar Veiculo =====\n");
 
-        switch (op)
-        {
-            case 1:
-                Console.Clear();
-                Console.WriteLine("===== Adicionar Veiculo =====\n");
+                    int categoriaID = InputHelper.LerInt("Digite o ID da categoria: ", "ID da categoria inválido");
+                    string placa = InputHelper.LerString("Digite a placa do veículo: ", "Placa inválida.");
+                    string marca = InputHelper.LerString("Digite a marca do veículo: ", "Marca inválida.");
+                    string modelo = InputHelper.LerString("Digite o modelo do veículo: ", "Modelo inválido");
+                    int ano = InputHelper.LerInt("Digite o ano do veículo: ", "Ano inválido");
+                    string statusVeiculo =
+                        InputHelper.LerString("Digite o status do veículo: ", "Status do veículo inválido");
 
-                int categoriaID = InputHelper.LerInt("Digite o ID da categoria: ", "ID da categoria inválido");
-                string placa = InputHelper.LerString("Digite a placa do veículo: ", "Placa inválida.");
-                string marca = InputHelper.LerString("Digite a marca do veículo: ", "Marca inválida.");
-                string modelo = InputHelper.LerString("Digite o modelo do veículo: ", "Modelo inválido");
-                int ano = InputHelper.LerInt("Digite o ano do veículo: ", "Ano inválido");
-                string statusVeiculo =
-                    InputHelper.LerString("Digite o status do veículo", "Status do veículo inválido");
-
-                Veiculo veiculo = new Veiculo(categoriaID, placa, marca, modelo, ano, statusVeiculo);
-                try
-                {
-                    veiculoController.AdicionarVeiculo(veiculo);
-                    Console.WriteLine("\nVeiculo adicionado com sucesso!");
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("Erro ao cadastrar veículo. " + ex.Message);
-                }
-
-                break;
-
-            case 2:
-                Console.Clear();
-                Console.WriteLine("===== Listar Veículos =====\n");
-
-                try
-                {
-                    var listaVeiculos = new List<Veiculo>();
-
-                    veiculoController.ListarTodosVeiculos();
-
-                    foreach (var item in listaVeiculos)
+                    Veiculo veiculo = new Veiculo(categoriaID, placa, marca, modelo, ano, statusVeiculo);
+                    try
                     {
-                        Console.WriteLine("=============================");
-                        Console.WriteLine(item);
-                        Console.WriteLine("=============================\n");
+                        veiculoController.AdicionarVeiculo(veiculo);
+                        Console.WriteLine("\nVeiculo adicionado com sucesso!");
+
+                        Console.ReadKey();
                     }
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("Erro ao listar veículos. " + ex.Message);
-                }
+                    catch (SqlException ex)
+                    {
+                        throw new Exception("Erro ao adicionar veículo. " + ex.Message);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Erro ao cadastrar veículo. " + ex.Message);
+                    }
 
-                break;
+                    break;
 
-            case 3:
-                Console.Clear();
-                Console.WriteLine("===== Buscar Veículo Por Placa =====\n");
-                try
-                {
-                    string placaLida = InputHelper.LerString("Digite a placa do veículo: ", "Placa inválida");
+                case 2:
+                    Console.Clear();
+                    Console.WriteLine("===== Listar Veículos =====\n");
 
-                    Veiculo veiculoLido = veiculoController.BuscarVeiculoPlaca(placaLida);
+                    try
+                    {
+                        var listaVeiculos = new List<Veiculo>();
 
-                    Console.WriteLine("\n===== Veículo Encontrado =====\n");
+                        listaVeiculos = veiculoController.ListarTodosVeiculos();
 
-                    Console.WriteLine(veiculoLido);
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("Erro ao buscar veículo. " + ex.Message);
-                }
-                break;
+                        foreach (var item in listaVeiculos)
+                        {
+                            Console.WriteLine("=============================");
+                            Console.WriteLine(item);
+                            Console.WriteLine("=============================\n");
+                        }
 
-            case 4:
-                Console.Clear();
-                Console.WriteLine("===== Alterar Status Veículo =====");
+                        Console.ReadKey();
+                    }
+                    catch (SqlException ex)
+                    {
+                        throw new Exception("Erro ao listar veículo. " + ex.Message);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Erro ao listar veículos. " + ex.Message);
+                    }
 
-                string placaBusca = InputHelper.LerString("Digite a placa do veículo: ", "Placa inválida");
+                    break;
 
-                string statusNovo = InputHelper.LerString("Digite o status do veículo", "Status inválido");
+                case 3:
+                    Console.Clear();
+                    Console.WriteLine("===== Buscar Veículo Por Placa =====\n");
+                    try
+                    {
+                        string placaLida = InputHelper.LerString("Digite a placa do veículo: ", "Placa inválida");
 
-                try
-                {
-                    veiculoController.AtualizarStatusVeiculo(statusNovo, placaBusca);
+                        Veiculo veiculoLido = veiculoController.BuscarVeiculoPlaca(placaLida);
 
-                    Console.WriteLine("Status do veículo alterado com sucesso");
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("Erro ao atualizar veículo. " + ex.Message);
-                }
-                break;
+                        Console.WriteLine("\n===== Veículo Encontrado =====\n");
 
-            case 5:
-                Console.Clear();
-                Console.WriteLine("===== Remover Veículo =====");
+                        Console.WriteLine(veiculoLido);
 
-                try
-                {
-                    string veiculoExcluir = InputHelper.LerString("Digite a placa do veículo", "Placa inválido");
+                        Console.ReadKey();
+                    }
+                    catch (SqlException ex)
+                    {
+                        throw new Exception("Erro ao buscar veículo. " + ex.Message);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Erro ao buscar veículo. " + ex.Message);
+                    }
+                    break;
 
-                    int idVeiculoBuscado = veiculoController.BuscarVeiculoPlaca(veiculoExcluir).VeiculoID;
+                case 4:
+                    Console.Clear();
+                    Console.WriteLine("===== Alterar Status Veículo =====");
 
-                    veiculoController.DeletarVeiculo(idVeiculoBuscado);
+                    string placaBusca = InputHelper.LerString("Digite a placa do veículo: ", "Placa inválida");
 
-                    Console.WriteLine("Veículo removido com sucesso!");
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("Erro ao remover veículo. " + ex.Message);
-                }
-                break;
+                    string statusNovo = InputHelper.LerString("Digite o status do veículo", "Status inválido");
 
-            case 0:
-                Menus.ExibirMenuPrincipal();
-                break;
+                    try
+                    {
+                        veiculoController.AtualizarStatusVeiculo(statusNovo, placaBusca);
 
-            default:
-                Console.WriteLine("Opção inválida. Tente novamente.");
-                break;
-        }
+                        Console.WriteLine("Status do veículo alterado com sucesso");
+
+                        Console.ReadKey();
+                    }
+                    catch (SqlException ex)
+                    {
+                        throw new Exception("Erro ao atualizar veículo. " + ex.Message);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Erro ao atualizar veículo. " + ex.Message);
+                    }
+                    break;
+
+                case 5:
+                    Console.Clear();
+                    Console.WriteLine("===== Remover Veículo =====");
+
+                    try
+                    {
+                        string veiculoExcluir = InputHelper.LerString("Digite a placa do veículo", "Placa inválido");
+
+                        veiculoController.DeletarVeiculo(veiculoExcluir);
+
+                        Console.WriteLine("Veículo removido com sucesso!");
+
+                        Console.ReadKey();
+                    }
+                    catch (SqlException ex)
+                    {
+                        throw new Exception("Erro ao remover veículo. " + ex.Message);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Erro ao remover veículo. " + ex.Message);
+                    }
+                    break;
+
+                case 0:
+                    break;
+
+                default:
+                    Console.WriteLine("Opção inválida. Tente novamente.");
+                    break;
+            }
+        } while (op != 0);
     }
 }
