@@ -52,7 +52,7 @@ public class LocacaoView
                     int diasLocacao = InputHelper.LerInt("Digite a quantidade de dias de locação: ",
                         "Dias de locação inválido");
 
-                    Locacao locacao = new Locacao(idCliente, idCliente, DateTime.Now, diasLocacao);
+                    Locacao locacao = new Locacao(idCliente, idVeiculo, DateTime.Now, diasLocacao);
 
                     try
                     {
@@ -104,12 +104,12 @@ public class LocacaoView
                     Console.Clear();
                     Console.WriteLine("===== Cancelar Locação =====\n");
 
-                    var placaCancelar =
-                        InputHelper.LerString("Digite a placa do veículo que deseja cancelar: ", "Placa inválida");
+                    var IdCancelar =
+                        InputHelper.LerInt("Digite o ID da locação que deseja cancelar: ", "ID inválido");
 
                     try
                     {
-                        locacaoController.CancelarLocacao(placaCancelar);
+                        locacaoController.CancelarLocacao(IdCancelar);
 
                         Console.WriteLine("\nLocação cancelada com sucesso!");
 
@@ -130,11 +130,11 @@ public class LocacaoView
                     Console.Clear();
                     Console.WriteLine("===== Encerrar Locação =====");
 
-                    var placaEncerrar = InputHelper.LerString("Digite a placa que deseja encerrar: ", "Placa inválida");
+                    var IdEncerrar = InputHelper.LerInt("Digite o ID da locação que deseja encerrar: ", "ID inválido");
 
                     try
                     {
-                        locacaoController.EncerrarLocacao(placaEncerrar);
+                        locacaoController.EncerrarLocacao(IdEncerrar);
 
                         Console.WriteLine("Locação encerrada com sucesso");
 
