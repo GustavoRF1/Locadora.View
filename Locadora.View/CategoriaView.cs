@@ -47,7 +47,7 @@ public class CategoriaView
 
                     string nome = InputHelper.LerString("Digite o nome da categoria: ", "Nome inválido.");
                     decimal diaria = InputHelper.LerDecimal("Digite o valor da diária da categoria: ", "Valor da diária inválida.");
-                    string? descricao = InputHelper.LerString("Digite a descrição da categoria (opcional): ", "Descrição inválida", "");
+                    string? descricao = InputHelper.LerStringNulo("Digite a descrição da categoria (opcional): ", "Descrição inválida", true);
 
                     Categoria categoria = new Categoria(nome, diaria, descricao);
                     try

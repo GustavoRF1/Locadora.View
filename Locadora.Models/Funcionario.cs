@@ -2,7 +2,7 @@
 
 public class Funcionario
 {
-    public Funcionario(string nome, string cpf, string email, decimal salario)
+    public Funcionario(string nome, string cpf, string email, decimal? salario)
     {
         Nome = nome;
         CPF = cpf;
@@ -22,14 +22,14 @@ public class Funcionario
     public string Nome { get; private set; }
     public string CPF { get; private set; }
     public string Email { get; private set; }
-    public decimal Salario { get; private set; }
+    public decimal? Salario { get; private set; }
     
     public void setFuncionarioID(int funcionarioID)
     {
         FuncionarioID = funcionarioID;
     }
 
-    public void setSalarioFuncionario(decimal salario)
+    public void setSalarioFuncionario(decimal? salario)
     {
         Salario = salario;
     }

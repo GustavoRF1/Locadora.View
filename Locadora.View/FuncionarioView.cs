@@ -49,7 +49,7 @@ namespace Locadora.View
                         string nome = InputHelper.LerString("Digite o nome do funcionário: ", "Nome inválido.");
                         string cpf = InputHelper.LerString("Digite o CPF do funcionário: ", "CPF inválido.");
                         string cargo = InputHelper.LerString("Digite o email do funcionário: ", "Cargo inválido.");
-                        decimal salario = InputHelper.LerDecimal("Digite o salário do funcionário: ", "Salário inválido.");
+                        decimal? salario = InputHelper.LerDecimalNulo("Digite o salário do funcionário: ", "Salário inválido.", true);
 
                         Funcionario novoFuncionario = new Funcionario(nome, cpf, cargo, salario);
 

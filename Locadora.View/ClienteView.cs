@@ -48,8 +48,8 @@ namespace Locadora.View
                         Console.WriteLine("===== Adicionar Cliente =====\n");
                         string nome = InputHelper.LerString("Digite o nome do cliente: ", "Nome inválido.");
                         string email = InputHelper.LerString("Digite o email do cliente: ", "Email inválido.");
-                        string? telefone = InputHelper.LerString("Digite o telefone do cliente (opcional): ",
-                            "Telefone Invalido", "");
+                        string? telefone = InputHelper.LerStringNulo("Digite o telefone do cliente (opcional): ",
+                            "Telefone Invalido", true);
 
                         Cliente cliente = new Cliente(nome, email, telefone);
 
@@ -143,8 +143,8 @@ namespace Locadora.View
 
                         string emailBusca = InputHelper.LerString("Digite o email do cliente: ", "Email inválido.");
 
-                        string? telefoneNovo = InputHelper.LerString("Digite o telefone do cliente (opcional): ",
-                            "Telefone Invalido", "");
+                        string? telefoneNovo = InputHelper.LerStringNulo("Digite o telefone do cliente (opcional): ",
+                            "Telefone Invalido", true);
 
                         try
                         {
