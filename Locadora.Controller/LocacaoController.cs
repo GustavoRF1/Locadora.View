@@ -91,6 +91,7 @@ namespace Locadora.Controller
 
                 while (reader.Read())
                 {
+
                     var diasLocacao = (int)(reader.GetDateTime(8) - reader.GetDateTime(7)).TotalDays;
                     Locacao locacao = new Locacao(
                         reader.GetInt32(4),
@@ -99,9 +100,16 @@ namespace Locadora.Controller
                         diasLocacao
                     );
 
+                    locacao.SetLocacaoID(reader.GetInt32(6));
+                    if (locacoes.Any(l => l.LocacaoID == locacao.LocacaoID))
+                    {
+                        continue;
+                    }
+
+
                     var listaFuncionario = locacaoFuncionarioController.BuscarFuncionariosPorLocacao(reader.GetInt32(6));
                     string funcionario1 = listaFuncionario[0];
-                    string funcionario2 = listaFuncionario.Count > 1 ? listaFuncionario[1] : "";
+                    var funcionario2 = listaFuncionario.Count > 1 ? listaFuncionario[1] : null;
 
                     var nomeCliente = clienteController.BuscarNomeClientePorID(reader.GetInt32(4));
                     var (marca, modelo, placa) = veiculoController.BuscarMarcaModeloPorVeiculoID(reader.GetInt32(5));
@@ -211,9 +219,6 @@ namespace Locadora.Controller
 
             using (var transaction = connection.BeginTransaction())
             {
-                //var veiculo = veiculoController.BuscarVeiculoPlaca(placa);
-                //if (veiculo is null)
-                //    throw new Exception("Veículo não encontrado!");
 
                 try
                 {
