@@ -1,4 +1,4 @@
-﻿﻿using Locadora.Models.Enums;
+﻿using Locadora.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +25,7 @@ namespace Locadora.Models
                                                                 FROM tblVeiculos v
                                                                 JOIN tblCategorias c
                                                                 ON v.CategoriaID = c.CategoriaID
-                                                                WHERE VeiculoID = @VeiculoID";
+                                                                WHERE Placa = @Placa";
 
         public static readonly string SELECTVEICULOPORID = @"SELECT Marca, Modelo, StatusVeiculo, Placa 
                                                             FROM tblVeiculos 
