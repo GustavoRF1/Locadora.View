@@ -136,7 +136,7 @@ public class VeiculoView
 
                     string placaBusca = InputHelper.LerString("Digite a placa do veículo: ", "Placa inválida");
 
-                    string statusNovo = InputHelper.LerString("Digite o status do veículo", "Status inválido");
+                    string statusNovo = InputHelper.LerString("Digite o status do veículo: ", "Status inválido");
 
                     try
                     {
@@ -162,7 +162,7 @@ public class VeiculoView
 
                     try
                     {
-                        string veiculoExcluir = InputHelper.LerString("Digite a placa do veículo", "Placa inválido");
+                        string veiculoExcluir = InputHelper.LerString("Digite a placa do veículo: ", "Placa inválido");
 
                         veiculoController.DeletarVeiculo(veiculoExcluir);
 

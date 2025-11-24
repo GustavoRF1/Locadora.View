@@ -26,7 +26,11 @@ namespace Locadora.Controller
                 {
                     var command = new SqlCommand(Categoria.INSERTCATEGORIA, connection, transaction);
                     command.Parameters.AddWithValue("@Nome", categoria.Nome);
-                    command.Parameters.AddWithValue("@Descricao", categoria.Descricao);
+                    command.Parameters.AddWithValue("@Descricao",
+
+                    //Valida a possibilidade de nulo na descrição
+                    categoria.Descricao == null ? DBNull.Value : categoria.Descricao
+                    );
                     command.Parameters.AddWithValue("@Diaria", categoria.Diaria);
 
                     command.ExecuteNonQuery();

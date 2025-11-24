@@ -126,5 +126,51 @@ namespace Utils.Inputs
                 Console.WriteLine(mensagemErro);
             }
         }
+
+        // Adicionado os dois metodos para Validação das datas dos documento
+
+        public static DateOnly LerDataEmissao(string mensagem, string mensagemErro)
+        {
+            while (true)
+            {
+                Console.Write(mensagem);
+                string? digitado = Console.ReadLine()?.Trim();
+
+                if (DateOnly.TryParse(digitado, out DateOnly data))
+                {
+                    if (data > DateOnly.FromDateTime(DateTime.Today))
+                    {
+                        Console.WriteLine("A data de emissão não pode ser maior que a data de hoje.");
+                        continue;
+                    }
+
+                    return data;
+                }
+
+                Console.WriteLine(mensagemErro);
+            }
+        }
+
+        public static DateOnly LerDataValidade(string mensagem, string mensagemErro, DateOnly dataEmissao)
+        {
+            while (true)
+            {
+                Console.Write(mensagem);
+                string? digitado = Console.ReadLine()?.Trim();
+
+                if (DateOnly.TryParse(digitado, out DateOnly data))
+                {
+                    if (data < dataEmissao)
+                    {
+                        Console.WriteLine("A data de validade não pode ser menor que a data de emissão.");
+                        continue;
+                    }
+
+                    return data;
+                }
+
+                Console.WriteLine(mensagemErro);
+            }
+        }
     }
 }
