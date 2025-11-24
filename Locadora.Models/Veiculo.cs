@@ -50,14 +50,14 @@ namespace Locadora.Models
         public string StatusVeiculo { get; private set; }
 
 
-        public Veiculo(int categoriaID, string placa, string marca, string modelo, int ano, string statusVeiculo)
+        public Veiculo(int categoriaID, string placa, string marca, string modelo, int ano)
         {
             CategoriaID = categoriaID;
             Placa = placa;
             Marca = marca;
             Modelo = modelo;
             Ano = ano;
-            StatusVeiculo = statusVeiculo;
+            StatusVeiculo = "Disponível";
         }
 
         public void SetVeiculoID(int veiculoID)

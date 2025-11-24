@@ -52,11 +52,9 @@ public class VeiculoView
                     string placa = InputHelper.LerString("Digite a placa do veículo: ", "Placa inválida.");
                     string marca = InputHelper.LerString("Digite a marca do veículo: ", "Marca inválida.");
                     string modelo = InputHelper.LerString("Digite o modelo do veículo: ", "Modelo inválido");
-                    int ano = InputHelper.LerInt("Digite o ano do veículo: ", "Ano inválido");
-                    string statusVeiculo =
-                        InputHelper.LerString("Digite o status do veículo: ", "Status do veículo inválido");
+                    int ano = InputHelper.LerInt("Digite o ano do veículo: ", "Ano inválido");             
 
-                    Veiculo veiculo = new Veiculo(categoriaID, placa, marca, modelo, ano, statusVeiculo);
+                    Veiculo veiculo = new Veiculo(categoriaID, placa, marca, modelo, ano);
                     try
                     {
                         veiculoController.AdicionarVeiculo(veiculo);
