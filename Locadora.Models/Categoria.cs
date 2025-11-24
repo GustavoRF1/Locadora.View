@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,7 +42,7 @@ namespace Locadora.Models
             Nome = nome;
             Diaria = diaria;
         }
-        public Categoria(string nome, decimal diaria, string? descricao) : this (nome, diaria)
+        public Categoria(string nome, decimal diaria, string? descricao) : this(nome, diaria)
         {
             Descricao = descricao;
         }
@@ -52,7 +52,7 @@ namespace Locadora.Models
             CategoriaID = categoriaID;
         }
 
-        public void SetNomeCategoria(string nome) 
+        public void SetNomeCategoria(string nome)
         {
             Nome = nome;
         }

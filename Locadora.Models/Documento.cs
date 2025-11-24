@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +17,7 @@ namespace Locadora.Models
                                                         DataEmissao = @DataEmissao,
                                                         DataValidade = @DataValidade
                                                         WHERE ClienteID = @IdCliente";
-        
+
         public static readonly string SELECTDOCUMENTO = @"SELECT * FROM tblDocumentos
                                                         WHERE DocumentoId = @DocumentoId";
 

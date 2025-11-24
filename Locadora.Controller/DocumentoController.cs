@@ -9,7 +9,7 @@ namespace Locadora.Controller
         public void AdicionarDocumento(Documento documento, SqlConnection connection, SqlTransaction transaction)
         {
 
-            try 
+            try
             {
                 SqlCommand command = new SqlCommand(Documento.INSERTDOCUMENTO, connection, transaction);
 
@@ -21,12 +21,12 @@ namespace Locadora.Controller
 
                 command.ExecuteNonQuery();
             }
-            catch(SqlException ex)
+            catch (SqlException ex)
             {
                 transaction.Rollback();
                 throw new Exception("Erro ao adicionar documento: " + ex.Message);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 transaction.Rollback();
                 throw new Exception("Erro inesperado ao adicionar documento: " + ex.Message);

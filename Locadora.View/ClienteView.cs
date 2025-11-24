@@ -56,12 +56,10 @@ namespace Locadora.View
                         string tipoDoc =
                             InputHelper.LerString("Digite o tipo de documento: ", "Informe um tipo válido!");
                         string numero = InputHelper.LerString("Digite o numero do Documento: ", "Número inválido!");
-
-                        // Alterar para corrigir Datas
                         DateOnly emissao =
-                            InputHelper.LerDataEmissao("Digite a Data de Emissão (dd/MM/yyyy): ", "Data inválida!");
+                            InputHelper.LerData("Digite a Data de Emissão (dd/MM/yyyy): ", "Data inválida!");
                         DateOnly validade =
-                            InputHelper.LerDataValidade("Digite a data de Validade (dd/MM/yyyy): ", "Data inválida!", emissao);
+                            InputHelper.LerData("Digite a data de Validade (dd/MM/yyyy): ", "Data inválida!", emissao);
 
                         Documento documento = new Documento(tipoDoc, numero, emissao, validade);
                         try
@@ -125,7 +123,7 @@ namespace Locadora.View
 
                             Console.WriteLine("\n===== Cliente Encontrado =====\n");
                             Console.WriteLine(clienteLido);
-                            
+
                             Console.ReadKey();
                         }
                         catch (SqlException ex)
@@ -153,7 +151,7 @@ namespace Locadora.View
                             clienteController.AtualizarTelefoneCliente(telefoneNovo, emailBusca);
 
                             Console.WriteLine("Telefone do cliente alterado com sucesso!");
-                            
+
                             Console.ReadKey();
                         }
                         catch (SqlException ex)
@@ -240,7 +238,7 @@ namespace Locadora.View
                         Console.WriteLine("Opção inválida. Tente novamente.");
                         break;
                 }
-            }while(op != 0);
+            } while (op != 0);
         }
     }
 }

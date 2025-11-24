@@ -65,8 +65,7 @@ namespace Locadora.Controller
                         reader.GetString(2),
                         reader.GetString(3),
                         reader.GetString(4),
-                        reader.GetInt32(5),
-                        reader.GetString(6)
+                        reader.GetInt32(5)
                     );
                     veiculo.SetNomeCategoria(reader.GetString(1));
 
@@ -109,8 +108,7 @@ namespace Locadora.Controller
                             reader.GetString(1),
                             reader.GetString(2),
                             reader.GetString(3),
-                            reader.GetInt32(4),
-                            reader.GetString(5)
+                            reader.GetInt32(4)
                         );
                         veiculo.SetVeiculoID(reader.GetInt32(6));
                     }
@@ -118,7 +116,7 @@ namespace Locadora.Controller
             }
             return veiculo;
         }
-        
+
         public decimal BuscarDiariaPorVeiculoID(int veiculoID)
         {
             SqlConnection connection = new SqlConnection(ConnectionDB.GetConnectionString());
@@ -212,7 +210,7 @@ namespace Locadora.Controller
 
             using (SqlTransaction transaction = connection.BeginTransaction())
             {
-                try 
+                try
                 {
                     var veiculoEncontrado = BuscarVeiculoPlaca(placa) ??
                         throw new Exception("Veículo não encontrado para atualizar status.");

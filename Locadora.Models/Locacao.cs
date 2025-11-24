@@ -10,7 +10,7 @@ namespace Locadora.Models
 {
     public class Locacao
     {
-        public static readonly string INSERTLOCACAO = "INSERT INTO tblLocacoes (ClienteID, VeiculoID, DataLocacao, DataDevolucaoPrevista, DataDevolucaoReal, ValorDiaria, ValorTotal, Multa, Status) VALUES (@ClienteID, @VeiculoID, @DataLocacao, @DataDevolucaoPrevista, @DataDevolucaoReal, @ValorDiaria, @ValorTotal, @Multa, @Status)" + 
+        public static readonly string INSERTLOCACAO = "INSERT INTO tblLocacoes (ClienteID, VeiculoID, DataLocacao, DataDevolucaoPrevista, DataDevolucaoReal, ValorDiaria, ValorTotal, Multa, Status) VALUES (@ClienteID, @VeiculoID, @DataLocacao, @DataDevolucaoPrevista, @DataDevolucaoReal, @ValorDiaria, @ValorTotal, @Multa, @Status)" +
             "SELECT SCOPE_IDENTITY()";
 
         public static readonly string SELECTLOCAOPORID = @"SELECT LocacaoID, ClienteID, VeiculoID, DataLocacao, DataDevolucaoPrevista, DataDevolucaoReal, ValorDiaria, ValorTotal, Multa, Status FROM tblLocacoes WHERE LocacaoID = @LocacaoID";
@@ -50,7 +50,7 @@ namespace Locadora.Models
         public decimal ValorTotal { get; private set; }
         public decimal Multa { get; private set; }
         public EStatusLocacao Status { get; private set; }
-       
+
         public Locacao(int clienteID, int veiculoID, DateTime dataLocacao, int diasLocacao)
         {
             ClienteID = clienteID;
@@ -60,7 +60,7 @@ namespace Locadora.Models
             Status = EStatusLocacao.Ativa;
         }
 
-        public void SetLocacaoID(int locacaoID) 
+        public void SetLocacaoID(int locacaoID)
         {
             LocacaoID = locacaoID;
         }
@@ -96,8 +96,8 @@ namespace Locadora.Models
         {
             NomeCliente = nomeCliente;
         }
-        public void SetMarca(string marca) 
-        { 
+        public void SetMarca(string marca)
+        {
             Marca = marca;
         }
         public void SetModelo(string modelo)

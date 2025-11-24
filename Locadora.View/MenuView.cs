@@ -63,6 +63,6 @@ public class MenuView
                     Console.WriteLine("Opção inválida. Tente novamente.");
                     break;
             }
-        }while(op != 0);
+        } while (op != 0);
     }
 }

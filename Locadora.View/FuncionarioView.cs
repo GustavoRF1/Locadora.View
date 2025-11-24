@@ -177,6 +177,6 @@ namespace Locadora.View
                         break;
                 }
             } while (op != 0);
-         }
+        }
     }
 }

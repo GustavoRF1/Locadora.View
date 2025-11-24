@@ -1,9 +1,9 @@
-﻿﻿namespace Locadora.Models
+﻿namespace Locadora.Models
 {
     public class Cliente
     {
         public static readonly string INSERTCLIENTE = @"INSERT INTO tblClientes 
-                                                        VALUES(@Nome, @Email, @Telefone)" 
+                                                        VALUES(@Nome, @Email, @Telefone)"
                                                         + "SELECT SCOPE_IDENTITY()";
 
         public static readonly string SELECTALLCLIENTES = @"SELECT c.Nome, c.Email, c.Telefone,
@@ -47,12 +47,12 @@
             Telefone = telefone;
         }
 
-        public void setClienteId(int ClientId) 
+        public void setClienteId(int ClientId)
         {
             ClienteId = ClientId;
         }
-        public void setTelefone(string telefone) 
-        { 
+        public void setTelefone(string telefone)
+        {
             Telefone = telefone;
         }
 
